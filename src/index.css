@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100dvw;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(141, 156, 156);
+}
