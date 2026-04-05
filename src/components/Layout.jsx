@@ -7,20 +7,37 @@ const Layout = () => {
     const [fail, setFail] = useState(null);
     const [input, setInput] = useState("");
 
+    const [current, setCurrent] = useState({});
+    const [location, setLocation] = useState({
+        name: "",
+        country: ""
+    })
+
     const fecthData = async (city) => {
 
         try {
             const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`)
             const weather = await response.json();
+
+            if (response.status !== 200) {
+                setFail("Something went wrong, please try again.")
+            }
+
+            if (response.status === 200) {
+
+                setLocation(weather.location)
+            }
             console.log(weather)
 
         } catch (error) {
-            console.log(error);
+
         }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLocation({})
+        setFail("")
         fecthData(input);
         setInput("")
 
@@ -36,7 +53,10 @@ const Layout = () => {
                 <button type='submit'>Get Weather Data</button>
             </form>
             <p>{fail}</p>
-            
+
+            <p>{location.name}</p>
+            <p>{location.country}</p>
+
 
 
         </main>
