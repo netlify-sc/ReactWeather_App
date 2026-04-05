@@ -7,10 +7,10 @@ const Layout = () => {
     const [fail, setFail] = useState(null);
     const [input, setInput] = useState("");
 
-    const fecthData = async () => {
+    const fecthData = async (city) => {
 
         try {
-            const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=london&days=7&aqi=no&alerts=no`)
+            const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`)
             const weather = await response.json();
             console.log(weather)
 
@@ -21,7 +21,8 @@ const Layout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fecthData();
+        fecthData(input);
+        setInput("")
 
 
     }
