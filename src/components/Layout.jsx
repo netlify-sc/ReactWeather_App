@@ -1,6 +1,16 @@
 import classes from './layout.module.css';
 import { useState } from 'react';
 
+const DAYS = {
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday"
+}
+
 
 const Layout = () => {
     const [data, setData] = useState([]);
@@ -20,6 +30,22 @@ const Layout = () => {
         country: ""
     })
 
+    const dateArray = () => {
+        const dates = new Array(7);
+        let day = new Date().getDay();
+        dates[0] = day;
+
+        for (let i= 0; i < dates.length ; i++){
+            if (day > 6){
+                day = 0;
+            }
+            dates[i] = DAYS[day];
+            day++;
+        }
+        dates[0] = "Today";
+        return dates;
+    }
+
     const [forecast, setForcast] = useState({
         forecastday: [{
             date: "",
@@ -38,6 +64,9 @@ const Layout = () => {
             }
         }]
     })
+
+    const dates = dateArray();
+    
 
     const fecthData = async (city) => {
 
@@ -104,14 +133,14 @@ const Layout = () => {
             }
             <div className={classes.forecast}>
                 {
-                    (data.length > 0) && forecast.forecastday.map(daily => {
+                    (data.length > 0) && forecast.forecastday.map((daily, i) => {
                         return (
-                            <div className={classes.dailyForecast}>
-                                <p>{daily.date}</p>
+                            <div key={daily.date} className={classes.dailyForecast}>
+                                <p>{dates[i]}</p>
                                 <p><b>AVG: </b>{daily.day.avgtemp_c}℃ / {daily.day.avgtemp_f}℉</p>
                                 <p><b>Low: </b>{daily.day.mintemp_c}℃ / {daily.day.mintemp_f}℉</p>
                                 <p><b>High: </b>{daily.day.maxtemp_c}℃ / {daily.day.maxtemp_f}℉</p>
-                                <img src={daily.day.condition.icon} alt={`${daily} forecast`} />
+                                <img className={classes.dailyForecastImg} src={daily.day.condition.icon} alt={`${daily} forecast`} />
                                 <p>{daily.day.condition.text}</p>
                             </div>
                         )
