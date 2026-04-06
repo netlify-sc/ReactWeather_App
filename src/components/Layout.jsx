@@ -7,10 +7,20 @@ const Layout = () => {
     const [fail, setFail] = useState(null);
     const [input, setInput] = useState("");
 
-    const [current, setCurrent] = useState({});
+    const [current, setCurrent] = useState({
+        temp_c: "",
+        temp_f: "",
+        condition: {
+            icon: ""
+        }
+    });
     const [location, setLocation] = useState({
         name: "",
         country: ""
+    })
+
+    const [forecast, setForcast] = useState({
+        forecastday: [{}]
     })
 
     const fecthData = async (city) => {
@@ -20,12 +30,13 @@ const Layout = () => {
             const weather = await response.json();
 
             if (response.status !== 200) {
-                setFail("Something went wrong, please try again.")
+                setFail("Something went wrong, please try again or enter different city name.")
             }
 
             if (response.status === 200) {
-
-                setLocation(weather.location)
+                setData([weather])
+                setLocation(weather.location);
+                setCurrent(weather.current);
             }
             console.log(weather)
 
@@ -36,26 +47,41 @@ const Layout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLocation({})
-        setFail("")
+        setLocation({});
+        setFail(null);
+        setData([]);
         fecthData(input);
-        setInput("")
+        setInput("");
+    }
 
-
+    const handleReset = (e) =>{
+        e.preventDefault();
+        setLocation({});
+        setFail(null);
+        setData([]);
+        setInput("");
     }
 
     return (
         <main className={classes.container} onSubmit={handleSubmit}>
-            <h1>Weather App</h1>
+            <h1 className={classes.title}>Weather App</h1>
             <form>
                 <p>Enter city name</p>
                 <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
                 <button type='submit'>Get Weather Data</button>
+                <button onClick={handleReset}>Reset</button>
             </form>
-            <p>{fail}</p>
+            {fail && <p className={classes.error}>{fail}</p>}
 
             <p>{location.name}</p>
             <p>{location.country}</p>
+            {(data.length > 0) &&
+                (
+                    <div className={classes.current}>
+                        <p>{current.temp_c}C / {current.temp_f}F</p>
+                        <img src={current.condition.icon} alt="Current Weather" />
+                    </div>)
+            }
 
 
 

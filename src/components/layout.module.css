@@ -4,4 +4,14 @@
     background-color: #6c9fda;
     display: flex;
     flex-direction: column;
+    border-radius: 20px;
+}
+
+.title {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.error {
+    color: rgb(117, 25, 25);
 }
