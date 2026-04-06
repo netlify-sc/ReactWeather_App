@@ -1,6 +1,6 @@
 .container {
     width: 90%;
-    min-height: 80%;
+    min-height: 90dvh;
     background-color: #49d5df;
     display: flex;
     flex-direction: column;
@@ -24,17 +24,3 @@
     /* justify-content: center; */
 }
 
-
-.dailyForecast {
-    margin: 10px;
-    background-color: antiquewhite;
-    border: 2px solid black;
-    border-radius: 20px;
-    padding: 10px;
-    
-}
-
-.dailyForecastImg {
-    
-    
-}
