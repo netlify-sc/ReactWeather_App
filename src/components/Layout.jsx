@@ -11,7 +11,8 @@ const Layout = () => {
         temp_c: "",
         temp_f: "",
         condition: {
-            icon: ""
+            icon: "",
+            text: ""
         }
     });
     const [location, setLocation] = useState({
@@ -20,7 +21,22 @@ const Layout = () => {
     })
 
     const [forecast, setForcast] = useState({
-        forecastday: [{}]
+        forecastday: [{
+            date: "",
+            day: {
+                maxtemp_c: "",
+                maxtemp_f: "",
+                mintemp_c: "",
+                mintemp_f: "",
+                avgtemp_c: "",
+                avgtemp_f: "",
+                condition: {
+                    text: "",
+                    icon: "",
+                    code: ""
+                }
+            }
+        }]
     })
 
     const fecthData = async (city) => {
@@ -37,6 +53,7 @@ const Layout = () => {
                 setData([weather])
                 setLocation(weather.location);
                 setCurrent(weather.current);
+                setForcast(weather.forecast);
             }
             console.log(weather)
 
@@ -50,6 +67,7 @@ const Layout = () => {
         setLocation({});
         setFail(null);
         setData([]);
+        setForcast({})
         fecthData(input);
         setInput("");
     }
@@ -57,6 +75,7 @@ const Layout = () => {
     const handleReset = (e) =>{
         e.preventDefault();
         setLocation({});
+        setForcast({})
         setFail(null);
         setData([]);
         setInput("");
@@ -78,10 +97,28 @@ const Layout = () => {
             {(data.length > 0) &&
                 (
                     <div className={classes.current}>
-                        <p>{current.temp_c}C / {current.temp_f}F</p>
+                        <p>{current.temp_c}℃ / {current.temp_f}℉</p>
                         <img src={current.condition.icon} alt="Current Weather" />
+                        <p>{current.condition.text}</p>
                     </div>)
             }
+            <div className={classes.forecast}>
+                {
+                    (data.length > 0) && forecast.forecastday.map(daily => {
+                        return (
+                            <div className={classes.dailyForecast}>
+                                <p>{daily.date}</p>
+                                <p><b>AVG: </b>{daily.day.avgtemp_c}℃ / {daily.day.avgtemp_f}℉</p>
+                                <p><b>Low: </b>{daily.day.mintemp_c}℃ / {daily.day.mintemp_f}℉</p>
+                                <p><b>High: </b>{daily.day.maxtemp_c}℃ / {daily.day.maxtemp_f}℉</p>
+                                <img src={daily.day.condition.icon} alt={`${daily} forecast`} />
+                                <p>{daily.day.condition.text}</p>
+                            </div>
+                        )
+                    })
+                }
+
+            </div>
 
 
 
