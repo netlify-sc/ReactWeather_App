@@ -14,6 +14,8 @@ const DAYS = {
 
 
 const Layout = () => {
+    const [unit, setUnit] = useState("℉");
+
     const [data, setData] = useState([]);
     const [fail, setFail] = useState(null);
     const [input, setInput] = useState("");
@@ -111,8 +113,16 @@ const Layout = () => {
         setInput("");
     }
 
+    const changeUnit = () =>{
+        (unit === "℃") ? setUnit("℉") : setUnit("℃");
+
+    }
+
+    const displayUnit = (unit === "℃") ? "℉" : "℃";
+
     return (
         <main className={classes.container} onSubmit={handleSubmit}>
+            <button className={classes.unit} onClick={changeUnit}>{unit}</button>
             <h1 className={classes.title}>Weather App</h1>
             <form>
                 <p>Enter city name</p>
@@ -127,7 +137,8 @@ const Layout = () => {
             {(data.length > 0) &&
                 (
                     <div className={classes.current}>
-                        <p>{current.temp_c}℃ / {current.temp_f}℉</p>
+                        <p>Current Temperature: {(unit=== "℃") ? current.temp_f : current.temp_c  }{displayUnit}</p>
+                        
                         <img src={current.condition.icon} alt="Current Weather" />
                         <p>{current.condition.text}</p>
                     </div>)
@@ -140,12 +151,10 @@ const Layout = () => {
                             <DailyForecast
                                 key={daily.date}
                                 day={dates[i]}
-                                avgtemp_c={daily.day.avgtemp_c}
-                                avgtemp_f={daily.day.avgtemp_f}
-                                mintemp_c={daily.day.mintemp_c}
-                                mintemp_f={daily.day.mintemp_f}
-                                maxtemp_c={daily.day.maxtemp_c}
-                                maxtemp_f={daily.day.maxtemp_c}
+                                unit={displayUnit}
+                                avgtemp={(unit === "℃") ? daily.day.avgtemp_f : daily.day.avgtemp_c}
+                                mintemp={(unit === "℃") ? daily.day.mintemp_f : daily.day.mintemp_c}
+                                maxtemp={(unit === "℃") ? daily.day.maxtemp_f : daily.day.maxtemp_c}
                                 icon={daily.day.condition.icon}
                                 text={daily.day.condition.text}
                             />

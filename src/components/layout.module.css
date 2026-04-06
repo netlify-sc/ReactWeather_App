@@ -9,12 +9,26 @@
 }
 
 .title {
-    margin-top: 20px;
+    margin-top: 0px;
     text-align: center;
 }
 
 .error {
     color: rgb(117, 25, 25);
+}
+
+.unit {
+    width: fit-content;
+    padding: 10px 12px;
+    border-radius: 50%;
+    border: none;
+    height: fit-content;
+    cursor: pointer;
+    
+    margin-left: auto;
+    
+    
+    
 }
 
 .forecast {
