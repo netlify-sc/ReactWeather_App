@@ -1,5 +1,6 @@
 import classes from './layout.module.css';
 import { useState } from 'react';
+import DailyForecast from './DailyForecast';
 
 const DAYS = {
     0: "Sunday",
@@ -35,8 +36,8 @@ const Layout = () => {
         let day = new Date().getDay();
         dates[0] = day;
 
-        for (let i= 0; i < dates.length ; i++){
-            if (day > 6){
+        for (let i = 0; i < dates.length; i++) {
+            if (day > 6) {
                 day = 0;
             }
             dates[i] = DAYS[day];
@@ -66,7 +67,7 @@ const Layout = () => {
     })
 
     const dates = dateArray();
-    
+
 
     const fecthData = async (city) => {
 
@@ -101,7 +102,7 @@ const Layout = () => {
         setInput("");
     }
 
-    const handleReset = (e) =>{
+    const handleReset = (e) => {
         e.preventDefault();
         setLocation({});
         setForcast({})
@@ -135,14 +136,21 @@ const Layout = () => {
                 {
                     (data.length > 0) && forecast.forecastday.map((daily, i) => {
                         return (
-                            <div key={daily.date} className={classes.dailyForecast}>
-                                <p>{dates[i]}</p>
-                                <p><b>AVG: </b>{daily.day.avgtemp_c}℃ / {daily.day.avgtemp_f}℉</p>
-                                <p><b>Low: </b>{daily.day.mintemp_c}℃ / {daily.day.mintemp_f}℉</p>
-                                <p><b>High: </b>{daily.day.maxtemp_c}℃ / {daily.day.maxtemp_f}℉</p>
-                                <img className={classes.dailyForecastImg} src={daily.day.condition.icon} alt={`${daily} forecast`} />
-                                <p>{daily.day.condition.text}</p>
-                            </div>
+
+                            <DailyForecast
+                                key={daily.date}
+                                day={dates[i]}
+                                avgtemp_c={daily.day.avgtemp_c}
+                                avgtemp_f={daily.day.avgtemp_f}
+                                mintemp_c={daily.day.mintemp_c}
+                                mintemp_f={daily.day.mintemp_f}
+                                maxtemp_c={daily.day.maxtemp_c}
+                                maxtemp_f={daily.day.maxtemp_c}
+                                icon={daily.day.condition.icon}
+                                text={daily.day.condition.text}
+                            />
+
+
                         )
                     })
                 }
