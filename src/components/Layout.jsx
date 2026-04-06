@@ -72,7 +72,7 @@ const Layout = () => {
     const fecthData = async (city) => {
 
         try {
-            const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`)
+            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`)
             const weather = await response.json();
 
             if (response.status !== 200) {
@@ -85,7 +85,7 @@ const Layout = () => {
                 setCurrent(weather.current);
                 setForcast(weather.forecast);
             }
-            console.log(weather)
+            
 
         } catch (error) {
 
