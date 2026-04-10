@@ -1,16 +1,8 @@
 import classes from './layout.module.css';
 import { useState } from 'react';
 import DailyForecast from './DailyForecast';
+import { useEffect } from 'react';
 
-const DAYS = {
-    0: "Sunday",
-    1: "Monday",
-    2: "Tuesday",
-    3: "Wednesday",
-    4: "Thursday",
-    5: "Friday",
-    6: "Saturday"
-}
 
 
 const Layout = () => {
@@ -19,6 +11,9 @@ const Layout = () => {
     const [data, setData] = useState([]);
     const [fail, setFail] = useState(null);
     const [input, setInput] = useState("");
+
+    const [numDays, setNumDays] = useState(7);
+    const [daysArray, setDaysArray] = useState([])
 
     const [current, setCurrent] = useState({
         temp_c: "",
@@ -33,10 +28,18 @@ const Layout = () => {
         country: ""
     })
 
-    const dateArray = () => {
-        const dates = new Array(7);
+    const dateArray = (numberOfDays) => {
+        const dates = new Array(numberOfDays);
+        const DAYS = {
+            0: "Sunday",
+            1: "Monday",
+            2: "Tuesday",
+            3: "Wednesday",
+            4: "Thursday",
+            5: "Friday",
+            6: "Saturday"
+        }
         let day = new Date().getDay();
-        dates[0] = day;
 
         for (let i = 0; i < dates.length; i++) {
             if (day > 6) {
@@ -68,14 +71,20 @@ const Layout = () => {
         }]
     })
 
-    const dates = dateArray();
 
 
-    const fecthData = async (city) => {
+
+    const fecthData = async (city, days) => {
 
         try {
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`)
+            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=${days}&aqi=no&alerts=no`)
             const weather = await response.json();
+
+
+            
+
+            setDaysArray(dateArray(days))
+            
 
             if (response.status !== 200) {
                 setFail("Something went wrong, please try again or enter different city name.")
@@ -87,7 +96,7 @@ const Layout = () => {
                 setCurrent(weather.current);
                 setForcast(weather.forecast);
             }
-            
+
 
         } catch (error) {
 
@@ -100,7 +109,7 @@ const Layout = () => {
         setFail(null);
         setData([]);
         setForcast({})
-        fecthData(input);
+        fecthData(input, numDays);
         setInput("");
     }
 
@@ -110,23 +119,34 @@ const Layout = () => {
         setForcast({})
         setFail(null);
         setData([]);
+        setNumDays(7)
         setInput("");
     }
 
-    const changeUnit = () =>{
+    const changeUnit = () => {
         (unit === "℃") ? setUnit("℉") : setUnit("℃");
 
     }
 
     const displayUnit = (unit === "℃") ? "℉" : "℃";
 
+
+
+
     return (
         <main className={classes.container} onSubmit={handleSubmit}>
-            <button className={classes.unit} onClick={changeUnit}>{unit}</button>
-            <h1 className={classes.title}>Weather App</h1>
+            <div className={classes.header}>
+
+
+                <h1 className={classes.title}>Weather App</h1>
+                <button className={classes.unitBtn} onClick={changeUnit}>{unit}</button>
+
+            </div>
+
             <form>
                 <p>Enter city name</p>
                 <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+                <input type="number" name="numDays" min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
                 <button type='submit'>Get Weather Data</button>
                 <button onClick={handleReset}>Reset</button>
             </form>
@@ -137,20 +157,24 @@ const Layout = () => {
             {(data.length > 0) &&
                 (
                     <div className={classes.current}>
-                        <p>Current Temperature: {(unit=== "℃") ? current.temp_f : current.temp_c  }{displayUnit}</p>
-                        
+                        <p>Current Temperature: {(unit === "℃") ? current.temp_f : current.temp_c}{displayUnit}</p>
+
                         <img src={current.condition.icon} alt="Current Weather" />
                         <p>{current.condition.text}</p>
                     </div>)
             }
             <div className={classes.forecast}>
                 {
+
                     (data.length > 0) && forecast.forecastday.map((daily, i) => {
                         return (
 
+
+
                             <DailyForecast
                                 key={daily.date}
-                                day={dates[i]}
+                                date={daily.date}
+                                day={daysArray[i]}
                                 unit={displayUnit}
                                 avgtemp={(unit === "℃") ? daily.day.avgtemp_f : daily.day.avgtemp_c}
                                 mintemp={(unit === "℃") ? daily.day.mintemp_f : daily.day.mintemp_c}
