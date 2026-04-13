@@ -10,6 +10,7 @@ const Layout = () => {
 
     const [data, setData] = useState([]);
     const [fail, setFail] = useState(null);
+    
     const [input, setInput] = useState("");
 
     const [numDays, setNumDays] = useState(7);
@@ -23,9 +24,29 @@ const Layout = () => {
             text: ""
         }
     });
+
     const [location, setLocation] = useState({
         name: "",
         country: ""
+    })
+
+    const [forecast, setForcast] = useState({
+        forecastday: [{
+            date: "",
+            day: {
+                maxtemp_c: "",
+                maxtemp_f: "",
+                mintemp_c: "",
+                mintemp_f: "",
+                avgtemp_c: "",
+                avgtemp_f: "",
+                condition: {
+                    text: "",
+                    icon: "",
+                    code: ""
+                }
+            }
+        }]
     })
 
     const dateArray = (numberOfDays) => {
@@ -52,39 +73,14 @@ const Layout = () => {
         return dates;
     }
 
-    const [forecast, setForcast] = useState({
-        forecastday: [{
-            date: "",
-            day: {
-                maxtemp_c: "",
-                maxtemp_f: "",
-                mintemp_c: "",
-                mintemp_f: "",
-                avgtemp_c: "",
-                avgtemp_f: "",
-                condition: {
-                    text: "",
-                    icon: "",
-                    code: ""
-                }
-            }
-        }]
-    })
-
-
-
-
+    
     const fecthData = async (city, days) => {
 
         try {
             const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=${days}&aqi=no&alerts=no`)
             const weather = await response.json();
 
-
-            
-
             setDaysArray(dateArray(days))
-            
 
             if (response.status !== 200) {
                 setFail("Something went wrong, please try again or enter different city name.")
@@ -130,23 +126,18 @@ const Layout = () => {
 
     const displayUnit = (unit === "℃") ? "℉" : "℃";
 
-
-
-
     return (
         <main className={classes.container} onSubmit={handleSubmit}>
             <div className={classes.header}>
-
 
                 <h1 className={classes.title}>Weather App</h1>
                 <button className={classes.unitBtn} onClick={changeUnit}>{unit}</button>
 
             </div>
-
-            <form>
-                <p>Enter city name</p>
-                <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
-                <input type="number" name="numDays" min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
+            <p>Enter city name to get the current weather and number of days between 1 - 14 to get daily forecast.</p>
+            <form className={classes.weatherForm}>
+                <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} />
+                <input type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
                 <button type='submit'>Get Weather Data</button>
                 <button onClick={handleReset}>Reset</button>
             </form>
@@ -168,9 +159,6 @@ const Layout = () => {
 
                     (data.length > 0) && forecast.forecastday.map((daily, i) => {
                         return (
-
-
-
                             <DailyForecast
                                 key={daily.date}
                                 date={daily.date}
@@ -182,16 +170,11 @@ const Layout = () => {
                                 icon={daily.day.condition.icon}
                                 text={daily.day.condition.text}
                             />
-
-
                         )
                     })
                 }
 
             </div>
-
-
-
         </main>
     )
 }

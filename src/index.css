@@ -7,7 +7,7 @@
 body {
   
   max-width: 100dvw;
-  
+  font-family: "Nunito";
   min-height: 100dvh;
   /* change to min-height maybe */
   display: flex;

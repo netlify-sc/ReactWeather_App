@@ -2,6 +2,7 @@ import classes from './dailyforecast.module.css';
 
 
 const DailyForecast = ({day, date, unit,avgtemp, mintemp, maxtemp, icon, text}) => {
+
     return (
         <div className={classes.dailyForecast}>
             <p className={classes.day}>{day}</p>

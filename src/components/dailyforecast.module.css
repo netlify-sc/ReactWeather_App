@@ -1,6 +1,7 @@
 .dailyForecast {
     margin: 10px;
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
+    background-color: #f5f5DC;
     border: 2px solid black;
     border-radius: 20px;
     padding: 10px;
