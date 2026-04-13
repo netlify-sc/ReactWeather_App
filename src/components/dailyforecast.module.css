@@ -9,6 +9,25 @@
     
 }
 
+/* .dailyForecast:hover {
+    animation: increase 2s ease;
+
+}
+
+@keyframes increase {
+    from {}
+    to {
+        transform: scale(1.1);
+    }
+    
+} */
+
+.dailyForecast:hover {
+        background-color: #dfdfd8;
+        transform: scale(1.1);
+    
+}
+
 .day {
     text-align: center;
     margin-bottom: 5px;

@@ -91,9 +91,18 @@
     color: white;
 }
 
+.weatherForm button[type="submit"]:hover {
+    background-color: #3fa510;
+}
+
 .reset {
     background-color: #f0003c;
     color: white;
+}
+
+.reset:hover {
+    background-color: #d60136;
+    
 }
 
 .current {
@@ -102,9 +111,11 @@
     margin-left: 100px;
     margin-bottom: 30px;
     font-size: 20px;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     background-color: #f5f5DC;
     width: fit-content;
+    /* text-align: center; */
+    border-radius: 20px;
 }
 
 .city {
