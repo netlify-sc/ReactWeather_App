@@ -131,13 +131,13 @@ const Layout = () => {
             <div className={classes.header}>
 
                 <h1 className={classes.title}>Weather App</h1>
-                <button className={classes.unitBtn} onClick={changeUnit}>{unit}</button>
+                <button className={classes.unitBtn} onClick={changeUnit} title='Change Unit'>{unit}</button>
 
             </div>
             <p className={classes.description}>Enter city name to get the current weather and number of days between 1 - 14 to get daily forecast.</p>
             <form className={classes.weatherForm}>
                 <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} />
-                <input type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
+                <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
                 <button type='submit'>Get Weather Data</button>
                 <button  className={classes.reset}onClick={handleReset}>Reset</button>
             </form>
@@ -148,7 +148,7 @@ const Layout = () => {
                     <div className={classes.current}>
                         <p className={classes.city}>{location.name}</p>
                         <p>{location.country}</p>
-                        <p>Current Temperature: {(unit === "℃") ? current.temp_f : current.temp_c}{displayUnit}</p>
+                        <p className={classes.currentTemp}>Current Temperature: {(unit === "℃") ? current.temp_f : current.temp_c}{displayUnit}</p>
 
                         <img src={current.condition.icon} alt="Current Weather" />
                         <p>{current.condition.text}</p>
