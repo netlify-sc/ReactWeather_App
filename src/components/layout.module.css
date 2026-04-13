@@ -26,7 +26,13 @@
     margin: 0 auto;
 }
 
+.description {
+    font-size: 20px;
+}
+
 .error {
+    font-size: 25px;
+    font-weight: bold;
     color: rgb(231, 35, 35);
 }
 
@@ -56,7 +62,56 @@
 .weatherForm {
     margin-top: 20px;
     display: flex;
-    gap: 5px;
+    gap: 10px;
     margin-bottom: 20px;
+    align-items: center;
 }
 
+.weatherForm input {
+    height: 25px;
+    font-size: 16px;
+}
+
+.weatherForm button{
+    padding: 5px 10px;
+    border-radius: 50px;
+    /* font-weight: bold; */
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.weatherForm button:active{
+    transform: translateY(2px);
+}
+
+.weatherForm button[type="submit"] {
+    background-color: #4CC713;
+    margin-left: 20px;
+    color: white;
+}
+
+.reset {
+    background-color: #f0003c;
+    color: white;
+}
+
+.current {
+    /* margin: 0 auto; */
+    padding: 10px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    border: 2px solid black;
+    background-color: #f5f5DC;
+    width: fit-content;
+}
+
+.city {
+    font-weight: bold;
+}
+
+.current img{
+    display: block;
+    margin: 0 auto;
+}
