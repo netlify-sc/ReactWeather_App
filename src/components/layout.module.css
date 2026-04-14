@@ -155,6 +155,12 @@
         border-radius: 0px;
     }
 
+    .unitBtn {
+        position: fixed;
+        right: 10px;
+        top: 15px;
+    }
+
     .header {
         margin-bottom: 20px;
     }
