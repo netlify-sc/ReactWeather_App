@@ -1,5 +1,5 @@
 import classes from './layout.module.css';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import DailyForecast from './DailyForecast';
 import { useEffect } from 'react';
 
@@ -10,7 +10,7 @@ const Layout = () => {
 
     const [data, setData] = useState([]);
     const [fail, setFail] = useState(null);
-    
+
     const [input, setInput] = useState("");
 
     const [numDays, setNumDays] = useState(7);
@@ -73,7 +73,7 @@ const Layout = () => {
         return dates;
     }
 
-    
+
     const fecthData = async (city, days) => {
 
         try {
@@ -134,12 +134,16 @@ const Layout = () => {
                 <button className={classes.unitBtn} onClick={changeUnit} title='Change Unit'>{unit}</button>
 
             </div>
-            <p className={classes.description}>Enter city name to get the current weather and number of days between 1 - 14 to get daily forecast.</p>
+            <p className={classes.description}>Enter city name for the current weather and number of days between 1 - 14 for daily forecast. Change units at the top right.</p>
             <form className={classes.weatherForm}>
-                <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} />
-                <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
-                <button type='submit'>Get Weather Data</button>
-                <button  className={classes.reset}onClick={handleReset}>Reset</button>
+                <div>
+                    <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} />
+                    <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
+                </div>
+                <div>
+                    <button type='submit'>Get Weather Data</button>
+                    <button className={classes.reset} onClick={handleReset}>Reset</button>
+                </div>
             </form>
             {fail && <p className={classes.error}>{fail}</p>}
 
@@ -154,27 +158,31 @@ const Layout = () => {
                         <p>{current.condition.text}</p>
                     </div>)
             }
-            <div className={classes.forecast}>
-                {
+            {(data.length > 0) &&
+                <>
+                    {/* <p className={classes.description}>Daily forecast for the next {forecast.forecastday.length} days.</p> */}
+                    <div className={classes.forecast}>
 
-                    (data.length > 0) && forecast.forecastday.map((daily, i) => {
-                        return (
-                            <DailyForecast
-                                key={daily.date}
-                                date={daily.date}
-                                day={daysArray[i]}
-                                unit={displayUnit}
-                                avgtemp={(unit === "℃") ? daily.day.avgtemp_f : daily.day.avgtemp_c}
-                                mintemp={(unit === "℃") ? daily.day.mintemp_f : daily.day.mintemp_c}
-                                maxtemp={(unit === "℃") ? daily.day.maxtemp_f : daily.day.maxtemp_c}
-                                icon={daily.day.condition.icon}
-                                text={daily.day.condition.text}
-                            />
-                        )
-                    })
-                }
+                        {forecast.forecastday.map((daily, i) => {
+                            return (
+                                <DailyForecast
+                                    key={daily.date}
+                                    date={daily.date}
+                                    day={daysArray[i]}
+                                    unit={displayUnit}
+                                    avgtemp={(unit === "℃") ? daily.day.avgtemp_f : daily.day.avgtemp_c}
+                                    mintemp={(unit === "℃") ? daily.day.mintemp_f : daily.day.mintemp_c}
+                                    maxtemp={(unit === "℃") ? daily.day.maxtemp_f : daily.day.maxtemp_c}
+                                    icon={daily.day.condition.icon}
+                                    text={daily.day.condition.text}
+                                />
+                            )
+                        })
+                        }
 
-            </div>
+                    </div>
+                </>
+            }
         </main>
     )
 }
