@@ -45,6 +45,16 @@ const Layout = () => {
             mintempF: "",
             avgtempC: "",
             avgtempF: "",
+            hourly: [
+                {
+                    weatherIconUrl: [{
+                        value: ""
+                    }],
+                    weatherDesc: [{
+                        value: ""
+                    }]
+                }
+            ]
                
         }]
     )
@@ -94,7 +104,15 @@ const Layout = () => {
                     country: weather.data.request[0].query.split(", ")[1]
                 });
                 setCurrent(weather.data.current_condition[0]);
-                setForcast(weather.data.weather);
+                setForcast(weather.data.weather.map(day=>{
+                    const randomPeriod = Math.floor(Math.random() * day.hourly.length);
+                    // const randomPeriod =  day.hourly.length;
+                    return {
+                        ...day, 
+                        randomPeriod: randomPeriod
+                    }
+
+                }));
             }
 
 
@@ -129,6 +147,19 @@ const Layout = () => {
     }
 
     const displayUnit = (unit === "℃") ? "℉" : "℃";
+
+    const times = {
+        "0": "12 AM",
+        "300": "3 AM",
+        "600": "6 AM",
+        "900": "9 AM",
+        "1200": "12 PM",
+        "1500": "3 PM",
+        "1800": "6 PM",
+        "2100": "9 PM",
+
+
+    }
 
     return (
         <main className={classes.container} onSubmit={handleSubmit}>
@@ -168,6 +199,7 @@ const Layout = () => {
                     <div className={classes.forecast}>
 
                          {forecast.map((daily, i) => {
+                            
                             return (
                                 <DailyForecast
                                     key={daily.date}
@@ -177,8 +209,9 @@ const Layout = () => {
                                     avgtemp={(unit === "℃") ? daily.avgtempF : daily.avgtempC}
                                     mintemp={(unit === "℃") ? daily.mintempF : daily.mintempC}
                                     maxtemp={(unit === "℃") ? daily.maxtempF : daily.maxtempC}
-                                    // icon={daily.day.condition.icon}
-                                    // text={daily.day.condition.text}
+                                    icon={daily.hourly[daily.randomPeriod].weatherIconUrl[0].value}
+                                    period={times[daily.hourly[daily.randomPeriod].time]}
+                                    text={daily.hourly[daily.randomPeriod].weatherDesc[0].value}
                                 />
                             )
                         })
