@@ -97,6 +97,11 @@ const Layout = () => {
                 setFail("Something went wrong, please try again or enter different city name.")
             }
 
+            if (weather.data.error){
+                setFail(weather.data.error[0].msg);
+                return;
+            }
+
             if (response.status === 200) {
                 setData([weather])
                 setLocation({
