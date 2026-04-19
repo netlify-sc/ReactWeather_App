@@ -17,12 +17,18 @@ const Layout = () => {
     const [daysArray, setDaysArray] = useState([])
 
     const [current, setCurrent] = useState({
-        temp_c: "",
-        temp_f: "",
-        condition: {
-            icon: "",
-            text: ""
-        }
+        temp_C: "",
+        temp_F: "",
+        weatherIconUrl: [
+            {
+                value: ""
+            }
+        ],
+        weatherDesc: [
+            {
+                value: ""
+            }
+        ]
     });
 
     const [location, setLocation] = useState({
@@ -30,24 +36,18 @@ const Layout = () => {
         country: ""
     })
 
-    const [forecast, setForcast] = useState({
-        forecastday: [{
+    const [forecast, setForcast] = useState(
+        [{
             date: "",
-            day: {
-                maxtemp_c: "",
-                maxtemp_f: "",
-                mintemp_c: "",
-                mintemp_f: "",
-                avgtemp_c: "",
-                avgtemp_f: "",
-                condition: {
-                    text: "",
-                    icon: "",
-                    code: ""
-                }
-            }
+            maxtempC: "",
+            maxtempF: "",
+            mintempC: "",
+            mintempF: "",
+            avgtempC: "",
+            avgtempF: "",
+               
         }]
-    })
+    )
 
     const dateArray = (numberOfDays) => {
         const dates = new Array(numberOfDays);
@@ -77,7 +77,8 @@ const Layout = () => {
     const fecthData = async (city, days) => {
 
         try {
-            const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=${days}&aqi=no&alerts=no`)
+            // const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&days=${days}&aqi=no&alerts=no`)
+            const response = await fetch(`https://api.worldweatheronline.com/premium/v1/weather.ashx?key=${import.meta.env.VITE_WEATHER_API}&q=${city}&num_of_days=${days}&format=json`)
             const weather = await response.json();
 
             setDaysArray(dateArray(days))
@@ -88,9 +89,12 @@ const Layout = () => {
 
             if (response.status === 200) {
                 setData([weather])
-                setLocation(weather.location);
-                setCurrent(weather.current);
-                setForcast(weather.forecast);
+                setLocation({
+                    name: weather.data.request[0].query.split(", ")[0],
+                    country: weather.data.request[0].query.split(", ")[1]
+                });
+                setCurrent(weather.data.current_condition[0]);
+                setForcast(weather.data.weather);
             }
 
 
@@ -152,10 +156,10 @@ const Layout = () => {
                     <div className={classes.current}>
                         <p className={classes.city}>{location.name}</p>
                         <p>{location.country}</p>
-                        <p className={classes.currentTemp}>Current Temperature: {(unit === "℃") ? current.temp_f : current.temp_c}{displayUnit}</p>
+                        <p className={classes.currentTemp}>Current Temperature: {(unit === "℃") ? current.temp_F : current.temp_C}{displayUnit}</p>
 
-                        <img src={current.condition.icon} alt="Current Weather" />
-                        <p>{current.condition.text}</p>
+                        <img src={current.weatherIconUrl[0].value} alt="Current Weather" />
+                        <p>{current.weatherDesc[0].value}</p>
                     </div>)
             }
             {(data.length > 0) &&
@@ -163,22 +167,22 @@ const Layout = () => {
                     {/* <p className={classes.description}>Daily forecast for the next {forecast.forecastday.length} days.</p> */}
                     <div className={classes.forecast}>
 
-                        {forecast.forecastday.map((daily, i) => {
+                         {forecast.map((daily, i) => {
                             return (
                                 <DailyForecast
                                     key={daily.date}
                                     date={daily.date}
                                     day={daysArray[i]}
                                     unit={displayUnit}
-                                    avgtemp={(unit === "℃") ? daily.day.avgtemp_f : daily.day.avgtemp_c}
-                                    mintemp={(unit === "℃") ? daily.day.mintemp_f : daily.day.mintemp_c}
-                                    maxtemp={(unit === "℃") ? daily.day.maxtemp_f : daily.day.maxtemp_c}
-                                    icon={daily.day.condition.icon}
-                                    text={daily.day.condition.text}
+                                    avgtemp={(unit === "℃") ? daily.avgtempF : daily.avgtempC}
+                                    mintemp={(unit === "℃") ? daily.mintempF : daily.mintempC}
+                                    maxtemp={(unit === "℃") ? daily.maxtempF : daily.maxtempC}
+                                    // icon={daily.day.condition.icon}
+                                    // text={daily.day.condition.text}
                                 />
                             )
                         })
-                        }
+                        } 
 
                     </div>
                 </>
