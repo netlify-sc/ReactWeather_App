@@ -172,7 +172,7 @@ const Layout = () => {
             <p className={classes.description}>Enter city name for the current weather and number of days between 1 - 14 for daily forecast. Change units at the top right.</p>
             <form className={classes.weatherForm}>
                 <div>
-                    <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} />
+                    <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} required/>
                     <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
                 </div>
                 <div>
