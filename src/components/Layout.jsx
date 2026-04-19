@@ -162,7 +162,7 @@ const Layout = () => {
     }
 
     return (
-        <main className={classes.container} onSubmit={handleSubmit}>
+        <main className={classes.container} >
             <div className={classes.header}>
 
                 <h1 className={classes.title}>Weather App</h1>
@@ -170,7 +170,7 @@ const Layout = () => {
 
             </div>
             <p className={classes.description}>Enter city name for the current weather and number of days between 1 - 14 for daily forecast. Change units at the top right.</p>
-            <form className={classes.weatherForm}>
+            <form className={classes.weatherForm} onSubmit={handleSubmit}>
                 <div>
                     <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} required/>
                     <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
