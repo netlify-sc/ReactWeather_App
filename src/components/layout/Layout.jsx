@@ -1,8 +1,8 @@
 import classes from './layout.module.css';
 import { Fragment, useState } from 'react';
-import DailyForecast from './DailyForecast';
+import DailyForecast from '../dailyForecast/DailyForecast';
 import { useEffect } from 'react';
-import CurrentWeather from './CurrentWeather';
+import CurrentWeather from '../currentWeather/CurrentWeather';
 
 
 
@@ -163,8 +163,6 @@ const Layout = () => {
         "1500": "3 PM",
         "1800": "6 PM",
         "2100": "9 PM",
-
-
     }
 
     return (
@@ -197,7 +195,7 @@ const Layout = () => {
                     description={current.weatherDesc[0].value}
                     displayUnit={displayUnit} />
             }
-            
+
             {(data.length > 0) &&
                 <>
                     {/* <p className={classes.description}>Daily forecast for the next {forecast.forecastday.length} days.</p> */}
