@@ -2,6 +2,7 @@ import classes from './layout.module.css';
 import { Fragment, useState } from 'react';
 import DailyForecast from './DailyForecast';
 import { useEffect } from 'react';
+import CurrentWeather from './CurrentWeather';
 
 
 
@@ -55,7 +56,7 @@ const Layout = () => {
                     }]
                 }
             ]
-               
+
         }]
     )
 
@@ -97,7 +98,7 @@ const Layout = () => {
                 setFail("Something went wrong, please try again or enter different city name.")
             }
 
-            if (weather.data.error){
+            if (weather.data.error) {
                 setFail(weather.data.error[0].msg);
                 return;
             }
@@ -109,11 +110,11 @@ const Layout = () => {
                     country: weather.data.request[0].query.split(", ")[1]
                 });
                 setCurrent(weather.data.current_condition[0]);
-                setForcast(weather.data.weather.map(day=>{
+                setForcast(weather.data.weather.map(day => {
                     const randomPeriod = Math.floor(Math.random() * day.hourly.length);
                     // const randomPeriod =  day.hourly.length;
                     return {
-                        ...day, 
+                        ...day,
                         randomPeriod: randomPeriod
                     }
 
@@ -177,7 +178,7 @@ const Layout = () => {
             <p className={classes.description}>Enter city name for the current weather and number of days between 1 - 14 for daily forecast. Change units at the top right.</p>
             <form className={classes.weatherForm} onSubmit={handleSubmit}>
                 <div>
-                    <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} required/>
+                    <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} required />
                     <input className={classes.numInput} type="number" name="numDays" placeholder='Number of days' min={1} max={14} value={numDays} onChange={(e) => setNumDays(Number(e.target.value))} />
                 </div>
                 <div>
@@ -188,23 +189,22 @@ const Layout = () => {
             {fail && <p className={classes.error}>{fail}</p>}
 
             {(data.length > 0) &&
-                (
-                    <div className={classes.current}>
-                        <p className={classes.city}>{location.name}</p>
-                        <p>{location.country}</p>
-                        <p className={classes.currentTemp}>Current Temperature: {(unit === "℃") ? current.temp_F : current.temp_C}{displayUnit}</p>
-
-                        <img src={current.weatherIconUrl[0].value} alt="Current Weather" />
-                        <p>{current.weatherDesc[0].value}</p>
-                    </div>)
+                <CurrentWeather
+                    city={location.name}
+                    country={location.country}
+                    currentTemp={(unit === "℃") ? current.temp_F : current.temp_C}
+                    icon={current.weatherIconUrl[0].value}
+                    description={current.weatherDesc[0].value}
+                    displayUnit={displayUnit} />
             }
+            
             {(data.length > 0) &&
                 <>
                     {/* <p className={classes.description}>Daily forecast for the next {forecast.forecastday.length} days.</p> */}
                     <div className={classes.forecast}>
 
-                         {forecast.map((daily, i) => {
-                            
+                        {forecast.map((daily, i) => {
+
                             return (
                                 <DailyForecast
                                     key={daily.date}
@@ -220,7 +220,7 @@ const Layout = () => {
                                 />
                             )
                         })
-                        } 
+                        }
 
                     </div>
                 </>
