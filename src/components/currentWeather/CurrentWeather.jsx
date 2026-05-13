@@ -1,6 +1,7 @@
 import classes from "./currentweather.module.css";
+import React from "react";
 
-const CurrentWeather = ({city, country, currentTemp, icon, description, displayUnit}) => {
+const CurrentWeather = React.memo( ({city, country, currentTemp, icon, description, displayUnit}) => {
     return (
         <>
             <div className={classes.current}>
@@ -14,6 +15,6 @@ const CurrentWeather = ({city, country, currentTemp, icon, description, displayU
 
         </>
     )
-}
+})
 
 export default CurrentWeather;

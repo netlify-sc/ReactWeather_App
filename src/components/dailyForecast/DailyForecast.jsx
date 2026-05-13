@@ -1,7 +1,8 @@
 import classes from './dailyforecast.module.css';
+import React from 'react';
 
 
-const DailyForecast = ({day, date, unit,avgtemp, mintemp, maxtemp, icon, text, period}) => {
+const DailyForecast = React.memo( ({day, date, unit,avgtemp, mintemp, maxtemp, icon, text, period}) => {
 
     return (
         <div className={classes.dailyForecast}>
@@ -14,6 +15,6 @@ const DailyForecast = ({day, date, unit,avgtemp, mintemp, maxtemp, icon, text, p
             <p className={classes.text}>{text}</p>
         </div>
     )
-}
+})
 
 export default DailyForecast;
