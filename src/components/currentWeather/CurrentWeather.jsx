@@ -1,4 +1,4 @@
-import classes from "./currentweather.module.css";
+import classes from "./currentweather2.module.css";
 import React from "react";
 
 const CurrentWeather = React.memo( ({city, country, currentTemp, icon, description, displayUnit}) => {

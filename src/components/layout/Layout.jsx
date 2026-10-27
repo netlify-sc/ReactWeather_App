@@ -1,4 +1,4 @@
-import classes from './layout.module.css';
+import classes from './layout2.module.css';
 import { Fragment, useState } from 'react';
 import DailyForecast from '../dailyForecast/DailyForecast';
 import { useEffect } from 'react';
@@ -173,7 +173,7 @@ const Layout = () => {
                 <button className={classes.unitBtn} onClick={changeUnit} title='Change Unit'>{unit}</button>
 
             </div>
-            <p className={classes.description}>Enter city name for the current weather and number of days between 1 - 14 for daily forecast. Change units at the top right.</p>
+            <p className={classes.description}>Search for a city to view current conditions and the upcoming forecast. Change units at the top right.</p>
             <form className={classes.weatherForm} onSubmit={handleSubmit}>
                 <div>
                     <input type="text" value={input} placeholder='Enter city name' onChange={(e) => setInput(e.target.value)} required />

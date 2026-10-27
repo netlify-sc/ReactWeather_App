@@ -1,0 +1,93 @@
+
+.current {
+    width: min(100%, 430px);
+    margin: 5px 0 25px 100px;
+    padding: 22px 24px;
+    box-sizing: border-box;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.08);
+
+    color: #1e293b;
+    font-family: "Nunito", sans-serif;
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.current::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background:
+        linear-gradient(
+            180deg,
+            #06b6d4,
+            #1677ff
+        );
+}
+
+.city {
+    margin: 0 0 2px;
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.current > p:not(.city):not(.currentTemp) {
+    margin: 0 0 8px;
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+.currentTemp {
+    margin: 10px 0 15px;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.currentTemp::first-line {
+    color: #475569;
+}
+
+
+.current img {
+    display: block;
+    width: 85px;
+    height: 85px;
+    margin: 5px auto 10px;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+
+.current > p:last-child {
+    margin: 5px 0 0;
+    color: #475569;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.current:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.11);
+}

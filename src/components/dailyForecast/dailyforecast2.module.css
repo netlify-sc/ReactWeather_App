@@ -1,0 +1,144 @@
+
+
+.dailyForecast {
+    min-width: 0;
+    min-height: 225px;
+    margin: 0;
+    padding: 18px 14px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    color: #1e293b;
+    font-family: "Nunito", sans-serif;
+    box-shadow:
+        0 5px 15px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+
+    overflow: hidden;
+}
+
+.dailyForecast:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f0f9ff
+        );
+
+    border-color: #bae6fd;
+    transform: translateY(-5px);
+    box-shadow:
+        0 12px 25px rgba(15, 23, 42, 0.11);
+}
+
+.day {
+    width: 100%;
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+.dailyForecastImg {
+    width: 62px;
+    height: 62px;
+    margin: 5px auto 10px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+
+
+.text {
+    width: 100%;
+    margin: 4px 0;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+
+.dailyForecast p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+
+@media screen and (max-width: 900px) {
+
+    .current {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+}
+
+
+@media screen and (max-width: 600px) {
+
+    .current {
+        width: 100%;
+        margin: 10px auto 25px;
+        padding: 20px;
+    }
+
+    .city {
+        font-size: 21px;
+    }
+
+    .currentTemp {
+        font-size: 17px;
+    }
+
+    .current img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .dailyForecast {
+        min-height: 220px;
+        padding: 16px 12px;
+    }
+
+}
+
+
+@media screen and (max-width: 380px) {
+
+    .current {
+        padding: 18px 15px;
+    }
+
+    .dailyForecast {
+        min-height: 210px;
+    }
+
+    .day {
+        font-size: 15px;
+    }
+
+    .text {
+        font-size: 13px;
+    }
+
+}

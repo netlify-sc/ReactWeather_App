@@ -1,4 +1,4 @@
-import classes from './dailyforecast.module.css';
+import classes from './dailyforecast2.module.css';
 import React from 'react';
 
 
